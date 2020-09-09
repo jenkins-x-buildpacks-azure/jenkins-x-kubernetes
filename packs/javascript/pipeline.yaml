@@ -1,7 +1,22 @@
 extends:
   import: classic
-  file: javascript/pipeline.yaml
+  file: javascript/pipeline.yaml  
 pipelines:
+  default:
+    pipeline:
+      options:
+        containerOptions:
+          volumeMounts:
+          - mountPath: /home/jenkins/.docker
+            name: volume-dot-docker
+          - mountPath: /home/jenkins/.docker-confs
+            name: volume-0
+        volumes:
+        - name: volume-dot-docker
+          emptyDir: {}
+        - name: volume-0
+          secret:
+            secretName: jenkins-docker-cfg
   pullRequest:
     build:
       steps:
