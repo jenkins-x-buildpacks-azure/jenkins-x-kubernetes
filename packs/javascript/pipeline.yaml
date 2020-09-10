@@ -1,14 +1,12 @@
 extends:
   import: classic
   file: javascript/pipeline.yaml  
+containerOptions:
+  env:
+  - name: DOCKER_CONFIG
+    value: /home/jenkins/.azure-docker/
 pipelines:
   pullRequest:
-    pipeline:
-      options:
-        containerOptions:
-          env:
-          - name: DOCKER_CONFIG
-            value: /home/jenkins/.azure-docker/
     preBuild:
       steps:
       - name: azure-login
@@ -37,12 +35,6 @@ pipelines:
           name: jx-preview
 
   release:
-    pipeline:
-      options:
-        containerOptions:
-          env:
-          - name: DOCKER_CONFIG
-            value: /home/jenkins/.azure-docker/
     preBuild:
       steps:
       - name: azure-login
