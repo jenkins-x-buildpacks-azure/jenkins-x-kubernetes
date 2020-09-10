@@ -7,7 +7,12 @@ containerOptions:
     value: /home/jenkins/.azure-docker/
 pipelines:
   pullRequest:
-    preBuild:
+    options:
+      containerOptions:
+        env:
+        - name: DOCKER_CONFIG
+          value: /home/jenkins/.azure-docker/
+    setup:
       steps:
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
@@ -35,7 +40,12 @@ pipelines:
           name: jx-preview
 
   release:
-    preBuild:
+    options:
+      containerOptions:
+        env:
+        - name: DOCKER_CONFIG
+          value: /home/jenkins/.azure-docker/
+    setup:
       steps:
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
