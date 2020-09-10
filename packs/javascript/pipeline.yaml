@@ -23,8 +23,8 @@ pipelines:
         args:
         - login
         - --identity
-      - name: copy-docker
-        command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG
+      # - name: copy-docker
+      #   command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG
     build:
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
@@ -59,8 +59,8 @@ pipelines:
         args:
         - login
         - --identity
-      - name: copy-docker
-        command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG
+      # - name: copy-docker
+      #   command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG
     build:
       steps:
       - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
