@@ -12,6 +12,9 @@ pipelines:
         env:
         - name: DOCKER_CONFIG
           value: /home/jenkins/.azure-docker/
+        volumeMounts:
+        - mountPath: /home/jenkins/.docker-staging
+          name: volume-0
     setup:
       steps:
       - name: azure-login
@@ -45,6 +48,9 @@ pipelines:
         env:
         - name: DOCKER_CONFIG
           value: /home/jenkins/.azure-docker/
+        volumeMounts:
+        - mountPath: /home/jenkins/.docker-staging
+          name: volume-0
     setup:
       steps:
       - name: azure-login
