@@ -62,7 +62,6 @@ pipelines:
       - name: copy-docker
         command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG
     build:
-      replace: true
       steps:
       - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
         name: container-build
