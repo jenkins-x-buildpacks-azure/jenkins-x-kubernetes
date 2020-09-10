@@ -1,25 +1,22 @@
 extends:
   import: classic
   file: javascript/pipeline.yaml  
+containerOptions:
+  volumeMounts:
+  - mountPath: /home/jenkins/.docker
+    name: volume-dot-docker
+  - mountPath: /home/jenkins/.docker-confs
+    name: volume-0
+volumes:
+- name: volume-dot-docker
+  emptyDir: {}
+- name: volume-0
+  secret:
+    secretName: jenkins-docker-cfg
 pipelines:
-  default:
-    pipeline:
-      options:
-        containerOptions:
-          volumeMounts:
-          - mountPath: /home/jenkins/.docker
-            name: volume-dot-docker
-          - mountPath: /home/jenkins/.docker-confs
-            name: volume-0
-        volumes:
-        - name: volume-dot-docker
-          emptyDir: {}
-        - name: volume-0
-          secret:
-            secretName: jenkins-docker-cfg
-    stages:
-      name: preSetup
-      steps:
+  pullRequest:
+    setup:
+      preSteps:
       - name: install-azure-cli-rpm
         command: rpm --import https://packages.microsoft.com/keys/microsoft.asc
       - name: install-azure-cli-repo
@@ -32,7 +29,6 @@ pipelines:
           gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
       - name: install-azure-cli-yum
         command: yum install -y azure-cli
-  pullRequest:
     build:
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
