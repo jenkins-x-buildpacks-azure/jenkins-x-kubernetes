@@ -9,7 +9,7 @@ pipelines:
           env:
           - name: DOCKER_CONFIG
             value: /home/jenkins/.azure-docker/
-    setup:
+    preBuild:
       steps:
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
@@ -43,7 +43,7 @@ pipelines:
           env:
           - name: DOCKER_CONFIG
             value: /home/jenkins/.azure-docker/
-    setup:
+    preBuild:
       steps:
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
