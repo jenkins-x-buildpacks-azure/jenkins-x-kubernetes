@@ -7,14 +7,6 @@ containerOptions:
     value: /home/jenkins/.azure-docker/
 pipelines:
   pullRequest:
-    options:
-      containerOptions:
-        env:
-        - name: DOCKER_CONFIG
-          value: /home/jenkins/.azure-docker/
-        volumeMounts:
-        - mountPath: /home/jenkins/.docker-staging
-          name: volume-0
     setup:
       steps:
       - name: azure-login
@@ -26,6 +18,11 @@ pipelines:
       # - name: copy-docker
       #   command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG
     build:
+      options:
+        containerOptions:
+          env:
+          - name: DOCKER_CONFIG
+            value: /home/jenkins/.azure-docker/
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
         name: container-build
@@ -43,14 +40,6 @@ pipelines:
           name: jx-preview
 
   release:
-    options:
-      containerOptions:
-        env:
-        - name: DOCKER_CONFIG
-          value: /home/jenkins/.azure-docker/
-        volumeMounts:
-        - mountPath: /home/jenkins/.docker-staging
-          name: volume-0
     setup:
       steps:
       - name: azure-login
