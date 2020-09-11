@@ -4,6 +4,8 @@ extends:
 env:
 - name: DOCKER_CONFIG
   value: /home/jenkins/.azure-docker/
+- name: AZURE_CONFIG_DIR
+  value: /home/jenkins/.azure
 pipelines:
   pullRequest:
     setup:
