@@ -9,7 +9,7 @@ pipelines:
     setup:
       steps:
       - name: docker-config-cp
-        command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
+        command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
         command: az
@@ -37,7 +37,7 @@ pipelines:
     setup:
       steps:
       - name: docker-config-cp
-        command: cp -d /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
+        command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
         command: az
