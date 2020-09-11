@@ -18,6 +18,9 @@ pipelines:
         args:
         - login
         - --identity
+      - name: azure-acr-login
+        image: mcr.microsoft.com/azure-cli
+        command: az acr login -n $DOCKER_REGISTRY
     build:
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
@@ -48,6 +51,9 @@ pipelines:
         args:
         - login
         - --identity
+      - name: azure-acr-login
+        image: mcr.microsoft.com/azure-cli
+        command: az acr login -n $DOCKER_REGISTRY
     build:
       steps:
       - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
