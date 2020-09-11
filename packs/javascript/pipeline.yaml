@@ -8,6 +8,8 @@ pipelines:
   pullRequest:
     setup:
       steps:
+      - name: docker-config-mkdir
+        command: mkdir -p $DOCKER_CONFIG
       - name: docker-config-cp
         command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
       - name: azure-login
@@ -36,6 +38,8 @@ pipelines:
   release:
     setup:
       steps:
+      - name: docker-config-mkdir
+        command: mkdir -p $DOCKER_CONFIG
       - name: docker-config-cp
         command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
       - name: azure-login
