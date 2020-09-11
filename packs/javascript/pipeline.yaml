@@ -60,8 +60,6 @@ pipelines:
       steps:
       # - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
       #   name: container-build
-      - name: build-precheck
-        command: ls -laR /home/jenkins/
       - name: container-build
         command: /kaniko/executor
         args:
@@ -74,7 +72,7 @@ pipelines:
         - --skip-tls-verify-registry=$DOCKER_REGISTRY
         - --verbosity=trace
         dir: /workspace/source
-        image: gcr.io/kaniko-project/executor:v0.22.0
+        image: gcr.io/kaniko-project/executor:v0.24.0
       - sh: jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)
         name: post-build
     promote:
