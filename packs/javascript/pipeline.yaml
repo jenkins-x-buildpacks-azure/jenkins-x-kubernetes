@@ -49,10 +49,7 @@ pipelines:
         command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
       - name: azure-login
         image: mcr.microsoft.com/azure-cli 
-        command: az
-        args:
-        - login
-        - --identity
+        command: curl -L https://aka.ms/acr/installaad/bash | /bin/bash && cp /usr/local/bin/docker-credential-acr-linux /usr/local/bin/docker-credential-acr && az login --identity && az acr login -n  $DOCKER_REGISTRY
       # - name: azure-acr-login
       #   image: mcr.microsoft.com/azure-cli
       #   command: az acr login -n $DOCKER_REGISTRY
