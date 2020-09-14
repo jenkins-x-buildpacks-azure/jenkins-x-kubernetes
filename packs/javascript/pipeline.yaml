@@ -55,21 +55,21 @@ pipelines:
       #   command: az acr login -n $DOCKER_REGISTRY
     build:
       steps:
-      # - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
-      #   name: container-build
-      - name: container-build
-        command: /kaniko/executor
-        args:
-        - --cache=true
-        - --cache-dir=/workspace
-        - --context=/workspace/source
-        - --dockerfile=/workspace/source/Dockerfile
-        - --destination=$DOCKER_REGISTRY/$ORG/$APP_NAME:${inputs.params.version}
-        - --cache-repo=$DOCKER_REGISTRY/todo/cache
-        - --skip-tls-verify-registry=$DOCKER_REGISTRY
-        - --verbosity=trace
-        dir: /workspace/source
-        image: gcr.io/kaniko-project/executor:debug
+      - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
+        name: container-build
+      # - name: container-build
+      #   command: /kaniko/executor
+      #   args:
+      #   - --cache=true
+      #   - --cache-dir=/workspace
+      #   - --context=/workspace/source
+      #   - --dockerfile=/workspace/source/Dockerfile
+      #   - --destination=$DOCKER_REGISTRY/$ORG/$APP_NAME:${inputs.params.version}
+      #   - --cache-repo=$DOCKER_REGISTRY/todo/cache
+      #   - --skip-tls-verify-registry=$DOCKER_REGISTRY
+      #   - --verbosity=trace
+      #   dir: /workspace/source
+      #   image: gcr.io/kaniko-project/executor:debug
       - sh: jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)
         name: post-build
     promote:
