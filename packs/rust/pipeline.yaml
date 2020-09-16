@@ -1,8 +1,21 @@
 extends:
   import: classic
   file: rust/pipeline.yaml
+env:
+- name: DOCKER_CONFIG
+  value: /home/jenkins/.azure-docker/
+- name: AZURE_CONFIG_DIR
+  value: /home/jenkins/.azure
 pipelines:
   pullRequest:
+    setup:
+      steps:
+      - name: docker-config-mkdir
+        command: mkdir -p $DOCKER_CONFIG
+      - name: docker-config-cp
+        command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
+      - name: azure-login
+        command: rpm --import https://packages.microsoft.com/keys/microsoft.asc && echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo && yum install azure-cli -y && curl -L https://aka.ms/acr/installaad/bash | /bin/bash && cp /usr/local/bin/docker-credential-acr-linux /usr/local/bin/docker-credential-acr && az login --identity && az acr login -n  $DOCKER_REGISTRY
     build:
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
@@ -21,6 +34,14 @@ pipelines:
           name: jx-preview
 
   release:
+    setup:
+      steps:
+      - name: docker-config-mkdir
+        command: mkdir -p $DOCKER_CONFIG
+      - name: docker-config-cp
+        command: cp -L /home/jenkins/.docker/config.json $DOCKER_CONFIG/config.json
+      - name: azure-login
+        command: rpm --import https://packages.microsoft.com/keys/microsoft.asc && echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo && yum install azure-cli -y && curl -L https://aka.ms/acr/installaad/bash | /bin/bash && cp /usr/local/bin/docker-credential-acr-linux /usr/local/bin/docker-credential-acr && az login --identity && az acr login -n  $DOCKER_REGISTRY
     build:
       steps:
       - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
