@@ -24,7 +24,7 @@ pipelines:
         - --stable-repo-url
         - https://charts.helm.sh/stable
         command: helm
-        dir: /workspace/source/env
+        dir: ./charts/preview
         name: init-helm2
     build:
       steps:
@@ -60,7 +60,6 @@ pipelines:
         - --stable-repo-url
         - https://charts.helm.sh/stable
         command: helm
-        dir: /workspace/source/env
         name: init-helm2
     build:
       steps:
@@ -76,7 +75,6 @@ pipelines:
         - --stable-repo-url
         - https://charts.helm.sh/stable
         command: helm
-        dir: /workspace/source/env
         name: init-helm2
       steps:
       - dir: ./charts/REPLACE_ME_APP_NAME
