@@ -80,7 +80,7 @@ pipelines:
         - https://charts.helm.sh/stable
         command: helm
         name: init-helm2
-     steps:
+      steps:
       - dir: charts/REPLACE_ME_APP_NAME
         steps:
         - sh: jx step changelog --version v\$(cat ../../VERSION)
